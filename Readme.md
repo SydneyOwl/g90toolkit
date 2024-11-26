@@ -1,8 +1,10 @@
 # G90ToolKit
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/sydneyowl/g90toolkit)](https://goreportcard.com/report/github.com/sydneyowl/g90toolkit)
+
 ## Introduction
 
-<img src="./assets/g90.jpg" alt="g90" style="zoom: 80%;" />
+<img src="./assets/g90.jpg" alt="g90" style="zoom: 50%;" /> 
 
 This software is based on several open-source tools, allowing users to:
 
@@ -12,7 +14,7 @@ This software is based on several open-source tools, allowing users to:
 + Flash firmware into G90 series Rigs (g90updatefw integrated)
 + ......
 
-This software should work on windows/linux/macos but I only tried it on ubuntu 24.04
+**This software should work on windows/linux/macos but I only tried it on ubuntu 24.04**
 
 > [!important]  
 > The official Xiegu firmware is encrypted using the AES-256 algorithm, making it nearly impossible to decrypt without
@@ -35,7 +37,7 @@ This software should work on windows/linux/macos but I only tried it on ubuntu 2
 
 + `./g90toolkit flashfw --firmware <encrypted_firmware> --device <serial_port>` write a firmware file to a Xiegu radio.
 
-+ `./g90toolkit patchimg --firmware <decrypted_firmware> --logo-path <logo_to_apply_to_the_firmware> --output  <path_to_save_patched_firmware> `  Patch boot logo
++ `./g90toolkit patchimg --firmware <decrypted_firmware> --logo-path <logo_to_apply_to_the_firmware> --output  <path_to_save_patched_firmware> `  Patch boot logo, should be 64x64
 
 + `./g90toolkit patchtext --firmware <decrypted_firmware> --text <text_to_apply_to_the_firmware> --output  <path_to_save_patched_firmware> `  Patch boot text
 
