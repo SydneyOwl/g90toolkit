@@ -5,12 +5,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/sydneyowl/g90toolkit/firmware_data"
-	"github.com/sydneyowl/g90toolkit/tools"
-	"os"
-	"strings"
-
 	"github.com/spf13/cobra"
+	"github.com/sydneyowl/g90toolkit/tools"
 )
 
 // encryptCmd represents the encrypt command
@@ -27,34 +23,11 @@ var encryptCmd = &cobra.Command{
 			fmt.Println("Please provide a output path!")
 			return
 		}
-		md5sum := tools.CalcMD5([]byte(Key))
-		if md5sum != firmware_data.KnownKeyMD5 {
-			fmt.Println("WARNING: THE KEY PROVIDED MISMATCH WITH KNOWN KEY. USE AT YOUR OWN RISK.")
+		if err := tools.DoEncryptAndSave(Key, FirmwarePath, output); err != nil {
+			fmt.Printf("Error: %v", err)
+		} else {
+			fmt.Printf("Firmware encrypted using specified key successfully.")
 		}
-		data, err := os.ReadFile(FirmwarePath)
-		if err != nil {
-			fmt.Printf("failed to read firmware: %v\n", err)
-			return
-		}
-		if !tools.CheckDecrypted(data) {
-			fmt.Println("Seems like the firmware you provided is already encrypted. Do you wish to continue? [y/n]")
-			choice := "n"
-			_, _ = fmt.Scanln(&choice)
-			if strings.ToUpper(choice) != "Y" {
-				return
-			}
-		}
-		dec, err := tools.DoEncrypt(Key, data)
-		if err != nil {
-			fmt.Printf("failed to Encrypt firmware: %v\n", err)
-			return
-		}
-		err = os.WriteFile(output, dec, 0777)
-		if err != nil {
-			fmt.Printf("failed to write to output: %v\n", err)
-			return
-		}
-		fmt.Println("Firmware encrypted with the key provided successfully!")
 	},
 }
 

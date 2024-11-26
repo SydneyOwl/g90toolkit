@@ -3,10 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/sydneyowl/g90toolkit/firmware_data"
 	"github.com/sydneyowl/g90toolkit/tools"
-	"os"
-	"strings"
 )
 
 var output string
@@ -25,34 +22,11 @@ var decryptCmd = &cobra.Command{
 			fmt.Println("Please provide a output path!")
 			return
 		}
-		md5sum := tools.CalcMD5([]byte(Key))
-		if md5sum != firmware_data.KnownKeyMD5 {
-			fmt.Println("WARNING: THE KEY PROVIDED MISMATCH WITH KNOWN KEY. USE AT YOUR OWN RISK.")
+		if err := tools.DoDecryptAndSave(Key, FirmwarePath, output); err != nil {
+			fmt.Printf("Error: %v", err)
+		} else {
+			fmt.Printf("Firmware decrypted using specified key successfully.")
 		}
-		data, err := os.ReadFile(FirmwarePath)
-		if err != nil {
-			fmt.Printf("failed to read firmware: %v\n", err)
-			return
-		}
-		if tools.CheckDecrypted(data) {
-			fmt.Println("Seems like the firmware you provided is already decrypted. Do you wish to continue? [y/n]")
-			choice := "n"
-			_, _ = fmt.Scanln(&choice)
-			if strings.ToUpper(choice) != "Y" {
-				return
-			}
-		}
-		dec, err := tools.DoDecrypt(Key, data)
-		if err != nil {
-			fmt.Printf("failed to decrypt firmware: %v\n", err)
-			return
-		}
-		err = os.WriteFile(output, dec, 0777)
-		if err != nil {
-			fmt.Printf("failed to write to output: %v\n", err)
-			return
-		}
-		fmt.Println("Firmware decrypted with the key provided successfully!")
 	},
 }
 

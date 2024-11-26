@@ -2,11 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/spf13/cobra"
 	"github.com/sydneyowl/g90toolkit/tools"
 	"os"
-	"unicode"
-
-	"github.com/spf13/cobra"
+	"regexp"
 )
 
 var text string
@@ -35,11 +34,10 @@ var patchtextCmd = &cobra.Command{
 			return
 		}
 
-		for _, r := range text {
-			if !unicode.IsDigit(r) && !unicode.IsLetter(r) {
-				fmt.Println("Only numbers or letters are allowed.")
-				return
-			}
+		re := regexp.MustCompile("^[a-zA-Z0-9]+$")
+		if !re.MatchString(text) {
+			fmt.Println("Only numbers or letters are allowed.")
+			return
 		}
 
 		if len(text) > 6 {

@@ -65,7 +65,7 @@ To flash your device, please:
 > 4. Press the power button until the radio begins erasing the existing firmware.
 `)
 		// start update radio, 0: writing 1:done
-		progChan := make(chan uint)
+		progChan := make(chan uint, 4)
 
 		go g90updatefw.UpdateRadio(serial, data, progChan)
 		<-progChan
