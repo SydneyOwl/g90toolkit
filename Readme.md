@@ -1,6 +1,6 @@
 # G90ToolKit
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/sydneyowl/g90toolkit)](https://goreportcard.com/report/github.com/sydneyowl/g90toolkit)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sydneyowl/g90toolkit)](https://goreportcard.com/report/github.com/sydneyowl/g90toolkit) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/sydneyowl/g90toolkit/total) ![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/sydneyowl/g90toolkit/latest/total)
 
 ## Introduction
 
