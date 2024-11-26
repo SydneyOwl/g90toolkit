@@ -1,8 +1,10 @@
-# G90Tools
+# G90ToolKit
 
 ## Introduction
 
-This software allows users to:
+<img src="./assets/g90.jpg" alt="g90" style="zoom: 80%;" />
+
+This software is based on several open-source tools, allowing users to:
 
 + Modify the embedded boot image/text in the G90 firmware.
 + Encrypt/Decrypt firmware use user provided key
@@ -10,17 +12,34 @@ This software allows users to:
 + Flash firmware into G90 series Rigs (g90updatefw integrated)
 + ......
 
+This software should work on windows/linux/macos but I only tried it on ubuntu 24.04
+
 > [!important]  
 > The official Xiegu firmware is encrypted using the AES-256 algorithm, making it nearly impossible to decrypt without
-> the key (unless you own a quantum computer). Fortunately, there are open-source methods available to extract the
+> the key. Fortunately, there are open-source methods available to extract the
 > encryption key using an ST-LINK debugger and OpenOCD tools. Due to copyright restrictions, I cannot provide the key
 > here, but you can extract the encryption key and decrypt the firmware using the methods outlined
-> in [G90Tools](https://github.com/OpenHamradioFirmware/G90Tools) (which also inspired the approach for modifying the
-> startup images in this software) or by finding the key shared by others online.
+> in [G90Tools](https://github.com/OpenHamradioFirmware/G90Tools) or by finding the key shared by others online.
 
 ## Usage
 
-TODO
++ `./g90toolkit -i` Enter interactive mode. Follow the instructions to provide the relevant information. The software will automatically decrypt the firmware, replace images and text, re-encrypt the firmware, and flash it into the device.
+
+  ![](./assets/7as51-w9pu6.gif)
+
++ `./g90toolkit decrypt --firmware <encrypted_firmware> --output <path_to_save_decrypted_firmware> --key <your_key>` Decrypt firmware using specified key.
+
++ `./g90toolkit encrypt --firmware <decrypted_firmware> --output <path_to_save_encrypted_firmware>  --key <your_key>` Encrypt firmware using specified key.
+
++ `./g90toolkit getinfo --firmware <firmware>` Read information of the firmware.
+
++ `./g90toolkit flashfw --firmware <encrypted_firmware> --device <serial_port>` write a firmware file to a Xiegu radio.
+
++ `./g90toolkit patchimg --firmware <decrypted_firmware> --logo-path <logo_to_apply_to_the_firmware> --output  <path_to_save_patched_firmware> `  Patch boot logo
+
++ `./g90toolkit patchtext --firmware <decrypted_firmware> --text <text_to_apply_to_the_firmware> --output  <path_to_save_patched_firmware> `  Patch boot text
+
++ use `./g90toolkit <command> --help` to get help information.
 
 ## Many thanks to ...
 
