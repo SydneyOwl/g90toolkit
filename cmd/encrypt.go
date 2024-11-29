@@ -16,11 +16,11 @@ var encryptCmd = &cobra.Command{
 			fmt.Println("Please provide a key!")
 			return
 		}
-		if output == "" {
+		if Output == "" {
 			fmt.Println("Please provide a output path!")
 			return
 		}
-		if err := tools.DoEncryptAndSave(Key, FirmwarePath, output); err != nil {
+		if err := tools.DoEncryptAndSave(Key, FirmwarePath, Output); err != nil {
 			fmt.Printf("Error: %v", err)
 		} else {
 			fmt.Printf("Firmware encrypted using specified key successfully.")
@@ -41,5 +41,11 @@ func init() {
 	// is called directly, e.g.:
 	// encryptCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-	encryptCmd.Flags().StringVar(&output, "output", "", "Specify a path to save encrypted firmware.")
+	encryptCmd.Flags().StringVar(&FirmwarePath, "firmware", "", "Specify a firmware to encrypt.")
+	encryptCmd.Flags().StringVar(&Key, "key", "", "Specify a key to decrypt/encrypt firmware.")
+	encryptCmd.Flags().StringVar(&Output, "output", "", "Specify a path to save decrypted firmware.")
+
+	encryptCmd.MarkFlagRequired("firmware")
+	encryptCmd.MarkFlagRequired("key")
+	encryptCmd.MarkFlagRequired("output")
 }

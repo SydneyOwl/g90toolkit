@@ -7,8 +7,6 @@ import (
 	"os"
 )
 
-var logoPath string
-
 // patchimgCmd represents the patchimg command
 var patchimgCmd = &cobra.Command{
 	Use:   "patchimg",
@@ -20,15 +18,15 @@ var patchimgCmd = &cobra.Command{
 			fmt.Printf("failed to read firmware: %v", err)
 			return
 		}
-		if output == "" {
+		if Output == "" {
 			fmt.Println("Please provide a output path!")
 			return
 		}
-		if logoPath == "" {
+		if LogoPath == "" {
 			fmt.Println("Please specify a logo path using --logo-path!")
 			return
 		}
-		logoData, err := os.ReadFile(logoPath)
+		logoData, err := os.ReadFile(LogoPath)
 		if err != nil {
 			fmt.Printf("failed to read logo: %v\n", err)
 			return
@@ -42,7 +40,7 @@ var patchimgCmd = &cobra.Command{
 			fmt.Printf("failed to patch boot logo: %v\n", err)
 			return
 		}
-		err = os.WriteFile(output, data, 0777)
+		err = os.WriteFile(Output, data, 0777)
 		if err != nil {
 			fmt.Printf("failed to patch image: %v\n", err)
 			return
@@ -62,6 +60,11 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	patchimgCmd.Flags().StringVar(&logoPath, "logo-path", "", "Specify the logo path you want to apply to the firmware.")
-	patchimgCmd.Flags().StringVar(&output, "output", "", "Specify a path to save patched firmware.")
+	patchimgCmd.Flags().StringVar(&FirmwarePath, "firmware", "", "Specify a decrypted firmware to path.")
+	patchimgCmd.Flags().StringVar(&LogoPath, "logo-path", "", "Specify the logo path you want to apply to the firmware.")
+	patchimgCmd.Flags().StringVar(&Output, "output", "", "Specify a path to save patched firmware.")
+
+	patchimgCmd.MarkFlagRequired("firmware")
+	patchimgCmd.MarkFlagRequired("logo-path")
+	patchimgCmd.MarkFlagRequired("output")
 }

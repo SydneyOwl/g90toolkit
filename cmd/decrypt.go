@@ -6,8 +6,6 @@ import (
 	"github.com/sydneyowl/g90toolkit/tools"
 )
 
-var output string
-
 // decryptCmd represents the decrypt command
 var decryptCmd = &cobra.Command{
 	Use:   "decrypt",
@@ -18,11 +16,11 @@ var decryptCmd = &cobra.Command{
 			fmt.Println("Please provide a key!")
 			return
 		}
-		if output == "" {
+		if Output == "" {
 			fmt.Println("Please provide a output path!")
 			return
 		}
-		if err := tools.DoDecryptAndSave(Key, FirmwarePath, output); err != nil {
+		if err := tools.DoDecryptAndSave(Key, FirmwarePath, Output); err != nil {
 			fmt.Printf("Error: %v", err)
 		} else {
 			fmt.Printf("Firmware decrypted using specified key successfully.")
@@ -41,5 +39,11 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	decryptCmd.Flags().StringVar(&output, "output", "", "Specify a path to save decrypted firmware.")
+	decryptCmd.Flags().StringVar(&FirmwarePath, "firmware", "", "Specify a firmware to decrypt.")
+	decryptCmd.Flags().StringVar(&Key, "key", "", "Specify a key to decrypt/encrypt firmware.")
+	decryptCmd.Flags().StringVar(&Output, "output", "", "Specify a path to save decrypted firmware.")
+
+	decryptCmd.MarkFlagRequired("firmware")
+	decryptCmd.MarkFlagRequired("key")
+	decryptCmd.MarkFlagRequired("output")
 }

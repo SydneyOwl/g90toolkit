@@ -8,24 +8,23 @@ import (
 	"regexp"
 )
 
-var text string
-
 // patchtextCmd represents the patchtext command
 var patchtextCmd = &cobra.Command{
 	Use:   "patchtext",
 	Short: "Patch the default boot text",
 	Long:  `Patch the default boot text`,
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Note: you can also change this by long-press vm key on your rig!")
 		data, err := os.ReadFile(FirmwarePath)
 		if err != nil {
 			fmt.Printf("failed to read firmware: %v", err)
 			return
 		}
-		if output == "" {
+		if Output == "" {
 			fmt.Println("Please provide a output path!")
 			return
 		}
-		if text == "" {
+		if Text == "" {
 			fmt.Println("Please specify text to be patched using --text!")
 			return
 		}
@@ -35,24 +34,24 @@ var patchtextCmd = &cobra.Command{
 		}
 
 		re := regexp.MustCompile("^[a-zA-Z0-9]+$")
-		if !re.MatchString(text) {
+		if !re.MatchString(Text) {
 			fmt.Println("Only numbers or letters are allowed.")
 			return
 		}
 
-		if len(text) > 6 {
+		if len(Text) > 6 {
 			fmt.Println("Only six-digit numbers or letters are allowed")
 			return
 		}
 
-		tmp := []byte(text)
+		tmp := []byte(Text)
 		textData := make([]byte, 8)
 		copy(textData, tmp)
 		if err := tools.PatchBootText(textData, data); err != nil {
 			fmt.Printf("failed to patch boot text: %v\n", err)
 			return
 		}
-		err = os.WriteFile(output, data, 0777)
+		err = os.WriteFile(Output, data, 0777)
 		if err != nil {
 			fmt.Printf("failed to patch text: %v\n", err)
 			return
@@ -73,6 +72,11 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// patchtextCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	patchtextCmd.Flags().StringVar(&text, "text", "", "Specify the text you want to apply to the firmware.")
-	patchtextCmd.Flags().StringVar(&output, "output", "", "Specify a path to save patched firmware.")
+	patchtextCmd.Flags().StringVar(&Text, "text", "", "Specify the text you want to apply to the firmware.")
+	patchtextCmd.Flags().StringVar(&Output, "output", "", "Specify a path to save patched firmware.")
+	patchtextCmd.Flags().StringVar(&FirmwarePath, "firmware", "", "Specify a decrypted firmware to path.")
+
+	patchtextCmd.MarkFlagRequired("text")
+	patchtextCmd.MarkFlagRequired("output")
+	patchtextCmd.MarkFlagRequired("firmware")
 }

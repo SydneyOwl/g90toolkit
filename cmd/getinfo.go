@@ -45,4 +45,8 @@ var firmwareInfoCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(firmwareInfoCmd)
+	firmwareInfoCmd.Flags().StringVar(&FirmwarePath, "firmware", "", "Specify a firmware to read.")
+	firmwareInfoCmd.Flags().StringVar(&Key, "key", "", "Specify a key to decrypt/encrypt firmware.(optional)")
+
+	firmwareInfoCmd.MarkFlagRequired("firmware")
 }

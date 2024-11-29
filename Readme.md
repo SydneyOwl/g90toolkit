@@ -25,9 +25,11 @@ This software is based on several open-source tools, allowing users to:
 
 ## Usage
 
-+ `./g90toolkit -i` Enter interactive mode. Follow the instructions to provide the relevant information. The software will automatically decrypt the firmware, replace images and text, re-encrypt the firmware, and flash it into the device.
-
-  ![](./assets/7as51-w9pu6.gif)
++ `./g90toolkit fullexec --firmware <encrypted_firmware> --key <your_key> 
+--device <optional_serial_port> --logo-path <optional_logo_path> 
+--text <optional_boot_text> --output <optional_output_path>`
+Automatically decrypt firmware， apply changes, re-encrypt firmware,
+save to file, and flash into device.
 
 + `./g90toolkit decrypt --firmware <encrypted_firmware> --output <path_to_save_decrypted_firmware> --key <your_key>` Decrypt firmware using specified key.
 

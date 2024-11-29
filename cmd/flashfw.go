@@ -7,11 +7,11 @@ import (
 	"github.com/sydneyowl/g90toolkit/lib/g90updatefw"
 	"github.com/sydneyowl/g90toolkit/tools"
 	"os"
+	"os/user"
+	"runtime"
 	"strings"
 	"time"
 )
-
-var deviceFile string
 
 // flashfwCmd represents the flashfw command
 var flashfwCmd = &cobra.Command{
@@ -32,7 +32,14 @@ machines it will be similar to COMM2.
 You should start the program with the programming cable plugged in
 and the power disconnected from the radio.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		serial, err := g90updatefw.SerialOpen(deviceFile, 115200)
+		if runtime.GOOS == "linux" || runtime.GOOS == "darwin" {
+			currentUser, _ := user.Current()
+			if currentUser.Uid != "0" && !NoRootCheck {
+				fmt.Println("WARNING: THIS PROGRAM IS NOT RUNNING WITH SUDO. SUDO IS NEEDED WHEN FLASHING FIRMWARE.")
+				fmt.Println("SUPPRESS THIS WARNING WITH --no-root-check.")
+			}
+		}
+		serial, err := g90updatefw.SerialOpen(DeviceFile, 115200)
 		if err != nil {
 			fmt.Printf("Error opening device: %v", err)
 			return
@@ -98,5 +105,10 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	flashfwCmd.Flags().StringVar(&deviceFile, "device", "", "name of the serial port connected to the Xiegu radio.")
+	flashfwCmd.Flags().StringVar(&DeviceFile, "device", "", "name of the serial port connected to the Xiegu radio.")
+	flashfwCmd.Flags().StringVar(&FirmwarePath, "firmware", "", "Specify a firmware to flash.")
+	flashfwCmd.Flags().BoolVar(&NoRootCheck, "no-root-check", false, "Don't check if the program is running with sudo")
+
+	flashfwCmd.MarkFlagRequired("device")
+	flashfwCmd.MarkFlagRequired("firmware")
 }
