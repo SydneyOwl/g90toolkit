@@ -28,20 +28,20 @@ This software is based on several open-source tools, allowing users to:
 + `./g90toolkit fullexec --firmware <encrypted_firmware> --key <your_key> 
 --device <optional_serial_port> --logo-path <optional_logo_path> 
 --text <optional_boot_text> --output <optional_output_path>`
-Automatically decrypt firmware， apply changes, re-encrypt firmware,
-save to file, and flash into device.
+**Automatically decrypt firmware， apply changes, re-encrypt firmware,
+save to file, and flash into device.**
 
-+ `./g90toolkit decrypt --firmware <encrypted_firmware> --output <path_to_save_decrypted_firmware> --key <your_key>` Decrypt firmware using specified key.
++ `./g90toolkit decrypt --firmware <encrypted_firmware> --output <path_to_save_decrypted_firmware> --key <your_key>` **Decrypt firmware using specified key.**
 
-+ `./g90toolkit encrypt --firmware <decrypted_firmware> --output <path_to_save_encrypted_firmware>  --key <your_key>` Encrypt firmware using specified key.
++ `./g90toolkit encrypt --firmware <decrypted_firmware> --output <path_to_save_encrypted_firmware>  --key <your_key>` **Encrypt firmware using specified key.**
 
-+ `./g90toolkit getinfo --firmware <firmware>` Read information of the firmware.
++ `./g90toolkit getinfo --firmware <firmware>` **Read information of the firmware.**
 
-+ `./g90toolkit flashfw --firmware <encrypted_firmware> --device <serial_port>` write a firmware file to a Xiegu radio.
++ `./g90toolkit flashfw --firmware <encrypted_firmware> --device <serial_port>` **write a firmware file to a Xiegu radio.**
 
-+ `./g90toolkit patchimg --firmware <decrypted_firmware> --logo-path <logo_to_apply_to_the_firmware> --output  <path_to_save_patched_firmware> `  Patch boot logo, should be 64x64
++ `./g90toolkit patchimg --firmware <decrypted_firmware> --logo-path <logo_to_apply_to_the_firmware> --output  <path_to_save_patched_firmware> `  **Patch boot logo, should be 64x64**
 
-+ `./g90toolkit patchtext --firmware <decrypted_firmware> --text <text_to_apply_to_the_firmware> --output  <path_to_save_patched_firmware> `  Patch boot text
++ `./g90toolkit patchtext --firmware <decrypted_firmware> --text <text_to_apply_to_the_firmware> --output  <path_to_save_patched_firmware> `  **Patch boot text**
 
 + use `./g90toolkit <command> --help` to get help information.
 
